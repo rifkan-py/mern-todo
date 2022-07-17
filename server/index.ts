@@ -1,7 +1,8 @@
 import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import cors from 'cors';
-import taskRoute from './routes/tasksRoute';
+import tasksRoute from './routes/tasksRoute';
+import usersRoute from './routes/usersRoute';
 import errorHandler from './middlewares/errorHandler';
 import connectDB from './config/db';
 import helmet from 'helmet';
@@ -19,7 +20,8 @@ app.use(express.json());
 app.use(helmet());
 app.use(morgan('dev'));
 
-app.use('/api/tasks', taskRoute);
+app.use('/api/tasks', tasksRoute);
+app.use('/api/users', usersRoute);
 
 app.use(errorHandler);
 
