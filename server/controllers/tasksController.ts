@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import asyncHandler from 'express-async-handler';
 import { Task } from '../models/Task';
+import asyncHandler from 'express-async-handler';
 
 const getTasks = asyncHandler(async (req: Request, res: Response) => {
   const tasks = await Task.find();
