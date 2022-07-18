@@ -6,7 +6,7 @@ class CustomError {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   additionalInfo!: any;
 
-  // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+  // eslint-disable-next-line @typescript-eslint/no-inferrable-types, @typescript-eslint/no-explicit-any
   constructor(message: string, status: number = 500, additionalInfo: any = {}) {
     this.message = message;
     this.status = status;
