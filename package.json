@@ -6,8 +6,9 @@
   "author": "Mohamed Rifkan",
   "license": "MIT",
   "scripts": {
-    "start": "node build/index.ts",
-    "dev": "ts-node-dev server/index.ts"
+    "start": "node build/index.js",
+    "dev": "ts-node-dev server/index.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
