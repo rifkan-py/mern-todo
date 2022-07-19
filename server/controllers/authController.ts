@@ -2,10 +2,16 @@ import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
 import User, { IUser } from '../models/User';
 import { isValidPassword, hashPassword } from '../utils/hashPassword';
+import { validationResult } from 'express-validator';
 
 const signup = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
   const existsUser = await User.findOne({ email });
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400).json(errors);
+    return;
+  }
   if (existsUser) {
     throw new Error('User already exists with given email');
   }
@@ -32,9 +38,10 @@ const signin = asyncHandler(
     }
     if (await isValidPassword(req.body.password, user)) {
       res.json(user);
+    } else {
+      res.status(400);
+      throw new Error('Authentication failed');
     }
-    res.status(400);
-    throw new Error('Authentication failed');
   }
 );
 
