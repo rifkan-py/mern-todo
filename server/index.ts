@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import express, { Application } from 'express';
 import cors from 'cors';
 import tasksRoute from './routes/tasksRoute';
-import usersRoute from './routes/usersRoute';
+import usersRoute from './routes/authRoute';
 import errorHandler from './middlewares/errorHandler';
 import connectDB from './config/db';
 import helmet from 'helmet';
@@ -15,13 +15,13 @@ const app: Application = express();
 connectDB();
 
 app.use(cors());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(helmet());
 app.use(morgan('dev'));
 
 app.use('/api/tasks', tasksRoute);
-app.use('/api/users', usersRoute);
+app.use('/api/auth', usersRoute);
 
 app.use(errorHandler);
 

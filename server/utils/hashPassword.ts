@@ -7,18 +7,18 @@ async function hashPassword(password: string) {
     const hashedPassword = await bcrypt.hash(password, salt);
     return hashedPassword;
   } catch (error) {
-    throw new Error('oopos... something went wrong');
+    throw new Error();
   }
 }
 
 async function isValidPassword(
   password: string,
-  { password: userPassword }: IUser
-) {
+  { password: hashedPassword }: IUser
+): Promise<boolean> {
   try {
-    return await bcrypt.compare(password, userPassword);
+    return await bcrypt.compare(password, hashedPassword);
   } catch (error) {
-    throw new Error('oopos... something went wrong');
+    throw new Error('Authentication fialed');
   }
 }
 export { hashPassword, isValidPassword };
