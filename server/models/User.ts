@@ -21,7 +21,7 @@ const userScema = new Schema(
   }
 );
 
-export type IUser = InferSchemaType<typeof userScema>;
+export type UserModel = InferSchemaType<typeof userScema>;
 
-export const User = model<IUser>('User', userScema);
+export const User = model<UserModel>('User', userScema);
 export default User;

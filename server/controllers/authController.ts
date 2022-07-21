@@ -1,8 +1,14 @@
 import { Request, Response } from 'express';
 import asyncHandler from 'express-async-handler';
-import User, { IUser } from '../models/User';
+import User, { UserModel } from '../models/User';
 import { isValidPassword, hashPassword } from '../utils/hashPassword';
 import { validationResult } from 'express-validator';
+import { generateToken } from '../utils/jwtToken';
+import { Types } from 'mongoose';
+
+export interface IUser extends UserModel {
+  _id: Types.ObjectId;
+}
 
 const signup = asyncHandler(async (req: Request, res: Response) => {
   const { name, email, password } = req.body;
@@ -21,8 +27,9 @@ const signup = asyncHandler(async (req: Request, res: Response) => {
     email,
     password: hash,
   });
+  const token = generateToken(user._id);
 
-  res.json(user);
+  res.json({ user: user._id, token });
 });
 
 export interface TypedRequestBody<T> extends Request {
@@ -30,14 +37,16 @@ export interface TypedRequestBody<T> extends Request {
 }
 
 const signin = asyncHandler(
-  async (req: TypedRequestBody<IUser>, res: Response) => {
+  async (req: TypedRequestBody<UserModel>, res: Response) => {
     const user = await User.findOne({ email: req.body.email }).select('-__v');
     if (!user) {
       res.status(400);
       throw new Error('Authentication failed');
     }
     if (await isValidPassword(req.body.password, user)) {
-      res.json(user);
+      const token = generateToken(user._id);
+
+      res.json({ user: user._id, token });
     } else {
       res.status(400);
       throw new Error('Authentication failed');

@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import { IUser } from '../models/User';
+import { UserModel } from '../models/User';
 
 async function hashPassword(password: string) {
   try {
@@ -13,7 +13,7 @@ async function hashPassword(password: string) {
 
 async function isValidPassword(
   password: string,
-  { password: hashedPassword }: IUser
+  { password: hashedPassword }: UserModel
 ): Promise<boolean> {
   try {
     return await bcrypt.compare(password, hashedPassword);

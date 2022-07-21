@@ -5,10 +5,11 @@ import {
   getTasks,
   updateTask,
 } from '../controllers/tasksController';
+import { protect } from '../middlewares/authMiddleware';
 
 const router = express.Router();
 
-router.get('/', getTasks);
+router.get('/', protect, getTasks);
 router.post('/', createTask);
 router.put('/:id', updateTask);
 router.delete('/:id', deleteTask);
